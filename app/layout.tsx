@@ -6,7 +6,7 @@ const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Lingo | Made by Prajwal',
-  description: ' A simple language learning app',
+  description: 'A simple language learning app, made by Prajwal.',
 };
 
 export default function RootLayout({
