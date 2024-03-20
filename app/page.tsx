@@ -5,14 +5,7 @@ export default function Home() {
     <main>
       <div>
         <div>
-          <a>
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              priority
-            />
-          </a>
+          <a></a>
         </div>
       </div>
 
