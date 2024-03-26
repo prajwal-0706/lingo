@@ -5,8 +5,8 @@ export default function Home() {
     <main>
       <div>
         <a>
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{' '}
+          <h2>
+            Docs
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
