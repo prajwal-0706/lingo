@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <div>
-        <a target="_blank" rel="noopener noreferrer">
+        <a>
           <h2 className="mb-3 text-2xl font-semibold">
             Learn{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
