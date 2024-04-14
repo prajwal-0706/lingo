@@ -5,7 +5,7 @@ export default function Home() {
     <main>
       <div>
         <a>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50"></p>
+          <p></p>
         </a>
       </div>
     </main>
