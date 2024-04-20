@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import React from 'react';
 
-export default function () {
+export default function buttonPage() {
   return (
     <div className="flex flex-col space-y-4 p-4 max-w-[200px]">
       {' '}
