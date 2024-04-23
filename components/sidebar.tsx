@@ -1,8 +1,15 @@
+import { cn } from '@/lib/utils';
+import { ClassValue } from 'clsx';
 import React from 'react';
 
-export function Sidebar() {
+export function Sidebar({ className }: { className?: ClassValue }) {
   return (
-    <div className="bg-blue-500 h-full lg:w-[256px] lg:fixed flex left-0 top-0">
+    <div
+      className={cn(
+        'bg-blue-500 h-full lg:w-[256px] lg:fixed flex left-0 top-0 px-4 border-r-2 flex-col',
+        className
+      )}
+    >
       shdfgksdhjfgkshjdfg
     </div>
   );
