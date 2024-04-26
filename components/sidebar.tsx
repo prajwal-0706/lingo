@@ -5,6 +5,8 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 import SidebarItem from '@/components/sidebar-item';
+import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs';
+import { Loader } from 'lucide-react';
 
 export function Sidebar({ className }: { className?: ClassValue }) {
   return (
@@ -22,8 +24,23 @@ export function Sidebar({ className }: { className?: ClassValue }) {
           </h1>
         </div>
       </Link>
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-1 flex-col gap-y-2">
         <SidebarItem iconSrc="/learn.svg" href="/learn" label="learn" />
+        <SidebarItem
+          iconSrc="/leaderboard.svg"
+          href="/leaderboard"
+          label="Leaderboard"
+        />
+        <SidebarItem iconSrc="/quest.svg" href="/quest" label="quests" />
+        <SidebarItem iconSrc="/shop.svg" href="/shop" label="shop" />
+      </div>
+      <div className="p-4 ">
+        <ClerkLoading>
+          <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
+        </ClerkLoading>
+        <ClerkLoaded>
+          <UserButton afterSignOutUrl="/" />
+        </ClerkLoaded>
       </div>
     </div>
   );
