@@ -1,9 +1,19 @@
+import { redirect } from 'next/navigation';
+
+import { getUserProgress } from '@/db/queries';
 import FeedWrapper from '@/components/feed-wrapper';
 import StickyWrapper from '@/components/sticky-wrapper';
 import UserProgress from '@/components/user-progress';
+
 import Header from './_components/header';
 
-export default function page() {
+export default async function page() {
+  const userProgessData = getUserProgress();
+
+  const [userProgress] = await Promise.all([userProgessData]);
+
+  if (!userProgress || !userProgress.activeCourse) redirect('/courses');
+
   return (
     <div className="flex flex-row-reverse gap-[40px] px-6">
       <StickyWrapper>
