@@ -1,11 +1,16 @@
 'use server';
 
-import { getCourseById, getUserProgress } from '@/db/queries';
 import { auth, currentUser } from '@clerk/nextjs';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-const upsertUserProgress = async (courseId: number) => {
+import db from '@/db/drizzle';
+import { getCourseById, getUserProgress } from '@/db/queries';
+import { userProgress } from '@/db/schema';
+
+export const upsertUserProgress = async (courseId: number) => {
   const { userId } = await auth();
-  const user = currentUser();
+  const user = await currentUser();
 
   if (!userId || !user) throw new Error('Unauthorized');
 
@@ -18,4 +23,29 @@ const upsertUserProgress = async (courseId: number) => {
   //   throw new Error('Course is empty');
 
   const existingUserProgress = await getUserProgress();
+
+  if (existingUserProgress) {
+    await db.update(userProgress).set({
+      activeCourseId: courseId,
+      userName: user.firstName || 'User',
+      userImageSrc: user.imageUrl || '/mascot.svg',
+    });
+
+    revalidatePath('/courses');
+    revalidatePath('/learn');
+
+    return redirect('/learn');
+  }
+
+  await db.insert(userProgress).values({
+    userId,
+    activeCourseId: courseId,
+    userName: user.firstName || 'User',
+    userImageSrc: user.imageUrl || '/mascot.svg',
+  });
+
+  revalidatePath('/courses');
+  revalidatePath('/learn');
+
+  redirect('/learn');
 };
