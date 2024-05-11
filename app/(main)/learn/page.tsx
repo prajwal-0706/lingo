@@ -1,6 +1,11 @@
 import { redirect } from 'next/navigation';
 
-import { getUnits, getUserProgress } from '@/db/queries';
+import {
+  getCourseProgress,
+  getLessonPercentage,
+  getUnits,
+  getUserProgress,
+} from '@/db/queries';
 import FeedWrapper from '@/components/feed-wrapper';
 import StickyWrapper from '@/components/sticky-wrapper';
 import UserProgress from '@/components/user-progress';
@@ -11,10 +16,20 @@ import Unit from './_components/unit';
 export default async function page() {
   const userProgessData = getUserProgress();
   const unitsData = getUnits();
+  const courseProgressData = getCourseProgress();
+  const lessonPercentageData = getLessonPercentage();
 
-  const [userProgress, units] = await Promise.all([userProgessData, unitsData]);
+  const [userProgress, units, courseProgress, lessonPercentage] =
+    await Promise.all([
+      userProgessData,
+      unitsData,
+      courseProgressData,
+      lessonPercentageData,
+    ]);
 
   if (!userProgress || !userProgress.activeCourse) redirect('/courses');
+
+  if (!courseProgress) redirect('/courses');
 
   return (
     <div className="flex flex-row-reverse gap-[40px] px-6">
@@ -36,8 +51,8 @@ export default async function page() {
               title={unit.title}
               lessons={unit.lessons}
               description={unit.description}
-              activeLesson={undefined}
-              activeLessonPercentage={0}
+              activeLesson={courseProgress.activeLeson}
+              activeLessonPercentage={lessonPercentage}
             />
           </div>
         ))}
