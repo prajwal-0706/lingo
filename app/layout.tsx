@@ -10,6 +10,18 @@ const nunito = Nunito({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Lingo | Made by Prajwal',
   description: 'A simple language learning app, made by Prajwal.',
+  icons: {
+    icon: [
+      {
+        media: '(prefers-color-scheme: light)',
+        url: '/mascot.svg',
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/mascot.svg',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
