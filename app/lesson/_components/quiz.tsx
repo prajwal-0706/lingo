@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 
 import { challengeOptions, challenges } from '@/db/schema';
 import Header from './header';
 import QuestionBubble from './question-bubble';
 import Challenge from './challenge';
 import Footer from './footer';
+import { upsertChallengeProgress } from '@/actions/challenge-progress';
+import { toast } from 'sonner';
+import { reduceHearts } from '@/actions/user-progress';
 
 type QuizProps = {
   initialLessonId: number;
@@ -26,6 +29,8 @@ export default function Quiz({
   initialPercentage,
   userSubcription,
 }: QuizProps) {
+  const [isPending, startTransition] = useTransition();
+
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
 
@@ -54,6 +59,72 @@ export default function Quiz({
     setSelectedOption(id);
   };
 
+  const onNext = () => {
+    setActiveIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const onContinue = () => {
+    if (!selectedOption) return;
+
+    if (status === 'wrong') {
+      setStatus('none');
+      setSelectedOption(undefined);
+      return;
+    }
+
+    if (status === 'correct') {
+      onNext();
+      setStatus('none');
+      setSelectedOption(undefined);
+      return;
+    }
+
+    const correctOption = options.find((option) => option.correct);
+
+    if (!correctOption) return;
+
+    if (correctOption.id === selectedOption) {
+      startTransition(() => {
+        upsertChallengeProgress(challenge.id)
+          .then((response) => {
+            if (response?.error === 'Hearts') {
+              console.log('Not enough hearts');
+              return;
+            }
+
+            setStatus('correct');
+            setPercentage((prev) => prev + 100 / challenges.length);
+
+            if (initialPercentage === 100) {
+              setHearts((prev) => Math.min(prev + 1, 5));
+            }
+          })
+          .catch((error) =>
+            toast.error('Something went wrong, please try again later')
+          );
+      });
+    } else {
+      startTransition(() => {
+        reduceHearts(challenge.id)
+          .then((response) => {
+            if (response?.error === 'hearts') {
+              console.log('Not enough hearts');
+              return;
+            }
+
+            setStatus('wrong');
+
+            if (!response?.error) {
+              setHearts((prev) => Math.max(prev - 1, 0));
+            }
+          })
+          .catch((error) =>
+            toast.error('Something went wrong, please try again later')
+          );
+      });
+    }
+  };
+
   return (
     <>
       <Header
@@ -76,14 +147,18 @@ export default function Quiz({
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
-                disabled={false}
+                disabled={isPending}
                 type={challenge.type}
               />
             </div>
           </div>
         </div>
       </div>
-      <Footer status={status} disabled={!selectedOption} onCheck={() => {}} />
+      <Footer
+        status={status}
+        disabled={isPending || !selectedOption}
+        onCheck={onContinue}
+      />
     </>
   );
 }
