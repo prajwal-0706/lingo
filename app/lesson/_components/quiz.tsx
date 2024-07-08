@@ -11,10 +11,12 @@ import Footer from './footer';
 import { upsertChallengeProgress } from '@/actions/challenge-progress';
 import { toast } from 'sonner';
 import { reduceHearts } from '@/actions/user-progress';
-import { useAudio, useWindowSize } from 'react-use';
+import { useAudio, useWindowSize, useMount } from 'react-use';
 import Image from 'next/image';
 import ResultCard from './result-card';
 import { useRouter } from 'next/navigation';
+import { useHeartModal } from '@/store/use-hearts-modal';
+import { usePracticeModal } from '@/store/use-practice-modal';
 
 type QuizProps = {
   initialLessonId: number;
@@ -34,6 +36,15 @@ export default function Quiz({
   initialPercentage,
   userSubcription,
 }: QuizProps) {
+  const { open: openHeartsModal } = useHeartModal();
+  const { open: openPracticeModal } = usePracticeModal();
+
+  useMount(() => {
+    if (initialPercentage === 100) {
+      openPracticeModal();
+    }
+  });
+
   const [correctAudio, _c, correctControls] = useAudio({
     src: '/correct.wav',
   });
@@ -51,7 +62,9 @@ export default function Quiz({
   const [isPending, startTransition] = useTransition();
 
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(initialPercentage);
+  const [percentage, setPercentage] = useState(() => {
+    return initialPercentage === 100 ? 0 : initialPercentage;
+  });
   const [lessonId, setLessonId] = useState(initialLessonId);
 
   const [challenges, setChallenges] = useState(initialLessonChallenges);
@@ -152,7 +165,7 @@ export default function Quiz({
         upsertChallengeProgress(challenge.id)
           .then((response) => {
             if (response?.error === 'Hearts') {
-              console.log('Not enough hearts');
+              openHeartsModal();
               return;
             }
             correctControls.play();
@@ -172,7 +185,7 @@ export default function Quiz({
         reduceHearts(challenge.id)
           .then((response) => {
             if (response?.error === 'hearts') {
-              console.log('Not enough hearts');
+              openHeartsModal();
               return;
             }
             incorrectControls.play();
