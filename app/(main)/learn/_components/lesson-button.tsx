@@ -44,7 +44,7 @@ export default function LessonButton({
   const isFirst = index === 0;
   const isLast = index === totalCount;
   const isCompleted = !current && !locked;
-  // && percentage === 100;
+  //  && percentage === 100;
 
   const Icon = isCompleted ? Check : isLast ? Crown : Star;
   const href = isCompleted ? `/lesson/${id}` : `/lesson`;

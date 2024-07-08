@@ -7,7 +7,7 @@ type FooterProps = {
   onCheck: () => void;
   status: 'correct' | 'wrong' | 'none' | 'completed';
   disabled?: boolean;
-  lessonId?: boolean;
+  lessonId?: number;
 };
 
 export default function Footer({
@@ -22,7 +22,7 @@ export default function Footer({
   return (
     <footer
       className={cn(
-        'lg:h-[140px] h-[100px] border-t-2',
+        'lg:h-[170px] h-[100px] border-t-2',
         status === 'correct' && 'border-transparent bg-green-100',
         status === 'wrong' && 'border-transparent bg-rose-100'
       )}
