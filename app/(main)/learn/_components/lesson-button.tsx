@@ -1,11 +1,12 @@
 'use client';
 
+import Link from 'next/link';
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { Check, Crown, Star } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Check, Crown, Star } from 'lucide-react';
-import Link from 'next/link';
 
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 type LessonButtonProps = {

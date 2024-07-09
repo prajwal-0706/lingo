@@ -2,6 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+import { useExitModal } from '@/store/use-exit-modal';
 
 import {
   Dialog,
@@ -12,8 +15,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useExitModal } from '@/store/use-exit-modal';
-import Image from 'next/image';
 
 export default function ExitModal() {
   const router = useRouter();

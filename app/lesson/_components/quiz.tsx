@@ -1,22 +1,24 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Confetti from 'react-confetti';
+import { toast } from 'sonner';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useAudio, useWindowSize, useMount } from 'react-use';
 
 import { challengeOptions, challenges } from '@/db/schema';
-import Confetti from 'react-confetti';
+import { upsertChallengeProgress } from '@/actions/challenge-progress';
+import { reduceHearts } from '@/actions/user-progress';
+
+import { useHeartModal } from '@/store/use-hearts-modal';
+import { usePracticeModal } from '@/store/use-practice-modal';
+
 import Header from './header';
 import QuestionBubble from './question-bubble';
 import Challenge from './challenge';
 import Footer from './footer';
-import { upsertChallengeProgress } from '@/actions/challenge-progress';
-import { toast } from 'sonner';
-import { reduceHearts } from '@/actions/user-progress';
-import { useAudio, useWindowSize, useMount } from 'react-use';
-import Image from 'next/image';
 import ResultCard from './result-card';
-import { useRouter } from 'next/navigation';
-import { useHeartModal } from '@/store/use-hearts-modal';
-import { usePracticeModal } from '@/store/use-practice-modal';
 
 type QuizProps = {
   initialLessonId: number;

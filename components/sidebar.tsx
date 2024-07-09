@@ -1,11 +1,11 @@
-import { ClassValue } from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-
-import { cn } from '@/lib/utils';
-import SidebarItem from '@/components/sidebar-item';
+import { ClassValue } from 'clsx';
 import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs';
+
+import SidebarItem from '@/components/sidebar-item';
+import { cn } from '@/lib/utils';
 import { Loader } from 'lucide-react';
 
 export function Sidebar({ className }: { className?: ClassValue }) {

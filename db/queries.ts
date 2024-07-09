@@ -1,9 +1,9 @@
 'use server';
 
 import { cache } from 'react';
-import db from './drizzle';
 import { auth } from '@clerk/nextjs';
 import { eq } from 'drizzle-orm';
+
 import {
   challengeProgress,
   courses,
@@ -11,6 +11,7 @@ import {
   units,
   userProgress,
 } from '@/db/schema';
+import db from './drizzle';
 
 export const getCourses = cache(async () => await db.query.courses.findMany());
 
