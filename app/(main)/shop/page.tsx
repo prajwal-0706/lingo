@@ -7,6 +7,8 @@ import FeedWrapper from '@/components/feed-wrapper';
 import StickyWrapper from '@/components/sticky-wrapper';
 import UserProgress from '@/components/user-progress';
 
+import Items from './_components/items';
+
 export default async function ShopPage() {
   const userProgressData = getUserProgress();
 
@@ -27,7 +29,18 @@ export default async function ShopPage() {
 
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">
-          <Image src="/shop.svg" alt="Shop" width={40} height={40} />
+          <Image src="/shop.svg" alt="Shop" width={90} height={90} />
+          <h1 className="text-center font-bold text-black text-2xl my-6">
+            Shop
+          </h1>
+          <p className="text-muted-foreground text-center text-lg mb-6">
+            Spend your points on cool stuff
+          </p>
+          <Items
+            hearts={userProgress.hearts}
+            points={userProgress.points}
+            hasActiveSubscription={false}
+          />
         </div>
       </FeedWrapper>
     </div>
