@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAudio, useWindowSize, useMount } from 'react-use';
 
-import { challengeOptions, challenges } from '@/db/schema';
+import { challengeOptions, challenges, userSubscription } from '@/db/schema';
 import { upsertChallengeProgress } from '@/actions/challenge-progress';
 import { reduceHearts } from '@/actions/user-progress';
 
@@ -28,7 +28,11 @@ type QuizProps = {
     completed: boolean;
     challengeOptions: (typeof challengeOptions.$inferSelect)[];
   })[];
-  userSubcription: any; // TODO: TO replace it with the actual schema type
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 };
 
 export default function Quiz({
@@ -36,7 +40,7 @@ export default function Quiz({
   initialLessonChallenges,
   initialHearts,
   initialPercentage,
-  userSubcription,
+  userSubscription,
 }: QuizProps) {
   const { open: openHeartsModal } = useHeartModal();
   const { open: openPracticeModal } = usePracticeModal();
@@ -210,7 +214,7 @@ export default function Quiz({
       {incorrectAudio}
       <Header
         percentage={percentage}
-        hasActiveSubscription={!!userSubcription?.isActive}
+        hasActiveSubscription={!!userSubscription?.isActive}
         hearts={hearts}
       />
       <div className="flex-1">

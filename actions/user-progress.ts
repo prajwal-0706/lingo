@@ -6,7 +6,11 @@ import { redirect } from 'next/navigation';
 import { and, eq } from 'drizzle-orm';
 
 import db from '@/db/drizzle';
-import { getCourseById, getUserProgress } from '@/db/queries';
+import {
+  getCourseById,
+  getUserProgress,
+  getUserSubscription,
+} from '@/db/queries';
 import { challengeProgress, challenges, userProgress } from '@/db/schema';
 
 const POINTS_TO_REFILL = 10;
@@ -21,9 +25,9 @@ export const upsertUserProgress = async (courseId: number) => {
 
   if (!course) throw new Error('Course not found');
 
-  // TODO: Enable once units and lessons are added
-  // if (!course.units.length || !course.units[0].lessons.length)
-  //   throw new Error('Course is empty');
+  if (!course.units.length || !course.units[0].lessons.length) {
+    throw new Error('Course is empty');
+  }
 
   const existingUserProgress = await getUserProgress();
 
@@ -59,7 +63,13 @@ export const reduceHearts = async (challengeId: number) => {
   if (!userId) throw new Error('Unauthorized');
 
   const currentUserProgress = await getUserProgress();
-  // TODO: Get subscription
+  const userSubscription = await getUserSubscription();
+
+  const challenge = await db.query.challenges.findFirst({
+    where: eq(challenges.id, challengeId),
+  });
+
+  if (!challenge) throw new Error('Challenge not found');
 
   const existingChallengeProgress = await db.query.challengeProgress.findFirst({
     where: and(
@@ -72,23 +82,11 @@ export const reduceHearts = async (challengeId: number) => {
 
   if (isPractice) return { error: 'practice' };
 
-  if (!currentUserProgress) {
-    throw new Error('User progress not found');
-  }
+  if (!currentUserProgress) throw new Error('User progress not found');
 
-  // TODO: handle Subscription
+  if (userSubscription?.isActive) return { error: 'subscription' };
 
-  const challenge = await db.query.challenges.findFirst({
-    where: eq(challenges.id, challengeId),
-  });
-
-  if (!challenge) {
-    throw new Error('Challenge not found');
-  }
-
-  if (currentUserProgress.hearts == 0) {
-    return { error: 'hearts' };
-  }
+  if (currentUserProgress.hearts == 0) return { error: 'hearts' };
 
   await db
     .update(userProgress)
