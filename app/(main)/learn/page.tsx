@@ -11,6 +11,8 @@ import {
 import FeedWrapper from '@/components/feed-wrapper';
 import StickyWrapper from '@/components/sticky-wrapper';
 import UserProgress from '@/components/user-progress';
+import Promo from '@/components/promo';
+import { Quests } from '@/components/quests';
 
 import Header from './_components/header';
 import Unit from './_components/unit';
@@ -40,6 +42,8 @@ export default async function page() {
 
   if (!courseProgress) redirect('/courses');
 
+  const isPro = !!userSubscription?.isActive;
+
   return (
     <div className="flex flex-row-reverse gap-[40px] px-6">
       <StickyWrapper>
@@ -49,6 +53,8 @@ export default async function page() {
           points={userProgress.points}
           hasActiveSubscription={!!userSubscription?.isActive}
         />
+        {!isPro && <Promo />}
+        <Quests points={userProgress.points} />
       </StickyWrapper>
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />

@@ -8,14 +8,13 @@ import { refillHearts } from '@/actions/user-progress';
 import { createStripeUrl } from '@/actions/user-subscription';
 
 import { Button } from '@/components/ui/button';
+import { POINTS_TO_REFILL } from '@/constants';
 
 type ItemsProps = {
   hearts: number;
   points: number;
   hasActiveSubscription: boolean;
 };
-
-const POINTS_TO_REFILL = 10;
 
 export default function Items({
   hearts,
