@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -7,8 +6,10 @@ import {
   SignInButton,
   UserButton,
 } from '@clerk/nextjs';
-import { Loader } from 'lucide-react';
 import Image from 'next/image';
+import { Loader } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 export const Header = () => {
   return (

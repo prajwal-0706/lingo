@@ -8,15 +8,17 @@
     "start": "next start",
     "lint": "next lint",
     "db:studio": "npx drizzle-kit studio",
-    "db:push": "npx drizzle-kit push:pg",
+    "db:push": "drizzle-kit push",
     "db:seed-dev": "tsx ./scripts/seed-dev.ts",
     "db:seed-prod": "tsx ./scripts/seed-prod.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.30.0",
     "@neondatabase/serverless": "^0.9.1",
+    "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -32,6 +34,7 @@
     "react-use": "^17.5.0",
     "sharp": "^0.33.3",
     "sonner": "^1.4.41",
+    "stripe": "^16.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.2"

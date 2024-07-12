@@ -1,6 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+
+import { usePracticeModal } from '@/store/use-practice-modal';
 
 import {
   Dialog,
@@ -11,8 +14,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { usePracticeModal } from '@/store/use-practice-modal';
-import Image from 'next/image';
 
 export default function PracticeModal() {
   const [isClient, setIsClient] = useState(false);

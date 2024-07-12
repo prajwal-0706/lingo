@@ -1,11 +1,11 @@
-import { ClassValue } from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-
-import { cn } from '@/lib/utils';
-import SidebarItem from '@/components/sidebar-item';
+import { ClassValue } from 'clsx';
 import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs';
+
+import SidebarItem from '@/components/sidebar-item';
+import { cn } from '@/lib/utils';
 import { Loader } from 'lucide-react';
 
 export function Sidebar({ className }: { className?: ClassValue }) {
@@ -31,7 +31,7 @@ export function Sidebar({ className }: { className?: ClassValue }) {
           href="/leaderboard"
           label="Leaderboard"
         />
-        <SidebarItem iconSrc="/quest.svg" href="/quest" label="quests" />
+        <SidebarItem iconSrc="/quest.svg" href="/quests" label="quests" />
         <SidebarItem iconSrc="/shop.svg" href="/shop" label="shop" />
       </div>
       <div className="p-4 ">

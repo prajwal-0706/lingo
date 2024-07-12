@@ -1,5 +1,5 @@
 import { lessons, units } from '@/db/schema';
-import React from 'react';
+
 import UnitBanner from './unit-banner';
 import LessonButton from './lesson-button';
 
@@ -32,7 +32,7 @@ export default function Unit({
   activeLessonPercentage,
 }: UnitProps) {
   return (
-    <React.Fragment>
+    <>
       <UnitBanner description={description} title={title} />
       <div className="flex items-center flex-col relative">
         {lessons.map((lesson, index) => {
@@ -52,6 +52,6 @@ export default function Unit({
           );
         })}
       </div>
-    </React.Fragment>
+    </>
   );
 }
