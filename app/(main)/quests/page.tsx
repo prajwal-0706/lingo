@@ -8,6 +8,7 @@ import StickyWrapper from '@/components/sticky-wrapper';
 import UserProgress from '@/components/user-progress';
 import { QUESTS } from '@/constants';
 import { Progress } from '@/components/ui/progress';
+import Promo from '@/components/promo';
 
 export default async function QuestsPage() {
   const userProgressData = getUserProgress();
@@ -20,6 +21,8 @@ export default async function QuestsPage() {
 
   if (!userProgress || !userProgress.activeCourse) redirect('/courses');
 
+  const isPro = !!userSubscription?.isActive;
+
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
@@ -29,6 +32,7 @@ export default async function QuestsPage() {
           points={userProgress.points}
           hasActiveSubscription={!!userSubscription?.isActive}
         />
+        {!isPro && <Promo />}
       </StickyWrapper>
 
       <FeedWrapper>

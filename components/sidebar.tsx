@@ -31,7 +31,7 @@ export function Sidebar({ className }: { className?: ClassValue }) {
           href="/leaderboard"
           label="Leaderboard"
         />
-        <SidebarItem iconSrc="/quest.svg" href="/quest" label="quests" />
+        <SidebarItem iconSrc="/quest.svg" href="/quests" label="quests" />
         <SidebarItem iconSrc="/shop.svg" href="/shop" label="shop" />
       </div>
       <div className="p-4 ">
